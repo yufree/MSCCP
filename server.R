@@ -1,12 +1,9 @@
-
-# This is the server logic for a Shiny web application.
-# You can find out more about building applications with Shiny here:
-#
-# http://shiny.rstudio.com
-#
-
 library(shiny)
 library(rcdk)
+library(xcms)
+source('sccp.R')
+load('sccpdt.RData')
+
 shinyServer(function(input, output) {
         output$plot0 <- renderPlot({
                 formula <- get.formula(input$formula, charge = 1)
