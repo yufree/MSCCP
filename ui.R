@@ -63,7 +63,7 @@ shinyUI(navbarPage(
                                                                '%Cl',
                                                                min = 40,
                                                                max = 80,
-                                                               value = 51.23,
+                                                               value = 52.23,
                                                                step = 0.01,
                                                                round = 3
                                                        ),sliderInput(
@@ -71,7 +71,7 @@ shinyUI(navbarPage(
                                                                '%Cl',
                                                                min = 40,
                                                                max = 80,
-                                                               value = 51.23,
+                                                               value = 53.23,
                                                                step = 0.01,
                                                                round = 3
                                                        ),sliderInput(
@@ -79,7 +79,7 @@ shinyUI(navbarPage(
                                                                '%Cl',
                                                                min = 40,
                                                                max = 80,
-                                                               value = 51.23,
+                                                               value = 54.23,
                                                                step = 0.01,
                                                                round = 3
                                                        ),sliderInput(
@@ -87,7 +87,7 @@ shinyUI(navbarPage(
                                                                '%Cl',
                                                                min = 40,
                                                                max = 80,
-                                                               value = 51.23,
+                                                               value = 55.23,
                                                                step = 0.01,
                                                                round = 3
                                                        ),sliderInput(
@@ -95,7 +95,7 @@ shinyUI(navbarPage(
                                                                '%Cl',
                                                                min = 40,
                                                                max = 80,
-                                                               value = 51.23,
+                                                               value = 56.23,
                                                                step = 0.01,
                                                                round = 3
                                                        ),sliderInput(
@@ -103,7 +103,7 @@ shinyUI(navbarPage(
                                                                '%Cl',
                                                                min = 40,
                                                                max = 80,
-                                                               value = 51.23,
+                                                               value = 57.23,
                                                                step = 0.01,
                                                                round = 3
                                                        ),sliderInput(
@@ -111,7 +111,7 @@ shinyUI(navbarPage(
                                                                '%Cl',
                                                                min = 40,
                                                                max = 80,
-                                                               value = 51.23,
+                                                               value = 58.23,
                                                                step = 0.01,
                                                                round = 3
                                                        ),sliderInput(
@@ -119,7 +119,7 @@ shinyUI(navbarPage(
                                                                '%Cl',
                                                                min = 40,
                                                                max = 80,
-                                                               value = 51.23,
+                                                               value = 61.23,
                                                                step = 0.01,
                                                                round = 3
                                                        )
@@ -169,7 +169,10 @@ shinyUI(navbarPage(
                                                        value = 2000,
                                                        step = 50,
                                                        round = 0
-                                               )
+                                               ),
+                                               actionButton("goButton", "Go!"),
+                                               plotOutput("plotrsd"),
+                                               textOutput("test")
                                                )))
         ))),
         tabPanel(
@@ -222,5 +225,7 @@ shinyUI(navbarPage(
                         mainPanel(p("test"))
                 )
         ),
+        tabPanel("Ions for analysis",
+                 dataTableOutput("data")),
         tabPanel("References")
 ))
