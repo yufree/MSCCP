@@ -2,90 +2,99 @@ options(shiny.maxRequestSize=100*1024^2)
 library(shiny)
 library(rcdk)
 library(xcms)
+library(broom)
 source('sccp.R')
 load('sccpdt.RData')
 
 shinyServer(function(input, output) {
-        randomVals <- eventReactive(input$goButton, {
-                if (!is.null(input$file1)){
-                        std1 <- xcmsRaw(input$file1$datapath,profstep = 0.1)
-                        std1 <- getareastd(std1,ismz = input$ISmz,ppm = input$ppm, con = input$con, rt = input$SCCPrt, rts = input$ISrt)   
-                }else{
-                        std1 <- NULL
-                }
-                if (!is.null(input$file2)){
-                        std2 <- xcmsRaw(input$file2$datapath,profstep = 0.1)
-                        std2 <- getareastd(std2,ismz = input$ISmz,ppm = input$ppm, con = input$con, rt = input$SCCPrt, rts = input$ISrt)
-                }else{
-                        std2 <- NULL    
-                }
-                if (!is.null(input$file3)){
-                        std3 <- xcmsRaw(input$file3$datapath,profstep = 0.1)    
-                        std3 <- getareastd(std3,ismz = input$ISmz,ppm = input$ppm, con = input$con, rt = input$SCCPrt, rts = input$ISrt)
-                }else{
-                        std3 <- NULL
-                }
-                if (!is.null(input$file4)){
-                        std <- xcmsRaw(input$file4$datapath,profstep = 0.1)    
-                        getareastd(std,ismz = input$ISmz,ppm = input$ppm, con = input$con, rt = input$SCCPrt, rts = input$ISrt)
-                }else{
-                        std4 <- NULL
-                }
-                if (!is.null(input$file5)){
-                        std5 <- xcmsRaw(input$file5$datapath,profstep = 0.1)    
-                        std5 <- getareastd(std5,ismz = input$ISmz,ppm = input$ppm, con = input$con, rt = input$SCCPrt, rts = input$ISrt)
-                }else{
-                        std5 <- NULL
-                }
-                if (!is.null(input$file6)){
-                std6 <- xcmsRaw(input$file6$datapath,profstep = 0.1)    
-                std6 <- getareastd(std6,ismz = input$ISmz,ppm = input$ppm, con = input$con, rt = input$SCCPrt, rts = input$ISrt)
-        }else{
-                        std6 <- NULL
-                }
-                if (!is.null(input$file7)){
-                        std7 <- xcmsRaw(input$file7$datapath,profstep = 0.1)    
-                        std7 <- getareastd(std7,ismz = input$ISmz,ppm = input$ppm, con = input$con, rt = input$SCCPrt, rts = input$ISrt)
-                }else{
-                        std7 <- NULL
-                }
-                if (!is.null(input$file8)){
-                std8 <- xcmsRaw(input$file8$datapath,profstep = 0.1)    
-                std8 <- getareastd(std8,ismz = input$ISmz,ppm = input$ppm, con = input$con, rt = input$SCCPrt, rts = input$ISrt)
-        }else{
-                        std8 <- NULL
-                }
-                if (!is.null(input$file9)){
-                std9 <- xcmsRaw(input$file9$datapath,profstep = 0.1)    
-                std9 <- getareastd(std8,ismz = input$ISmz,ppm = input$ppm, con = input$con, rt = input$SCCPrt, rts = input$ISrt)
-                }else{
-                        std9 <- NULL
-                }
-        pCl <- c(std1$sumpCl,std2$sumpCl,std3$sumpCl,std4$sumpCl,std5$sumpCl,std6$sumpCl,std7$sumpCl,std8$sumpCl,std9$sumpCl)
-        area <- c(std1$sumrarea,std2$sumrarea,std3$sumrarea,std4$sumrarea,std5$sumrarea,std6$sumrarea,std7$sumrarea,std8$sumrarea,std9$sumrarea)
-        cbind.data.frame(pCl,area)
-        })
-        randomVals2 <- eventReactive(input$goButton, {
-                if (!is.null(input$file1)){
-                        std1 <- xcmsRaw(input$file1$datapath,profstep = 0.1)
-                        std1 <- getareastd(std1,ismz = input$ISmz,ppm = input$ppm, con = input$con, rt = input$SCCPrt, rts = input$ISrt)   
-                }else{
-                        std1 <- NULL
-                }
-                std1$sumpCl
-        })
-        output$plotstd <- renderPlot({
-                std1 <- xcmsRaw(input$file1$datapath,profstep = 0.1)
-                std1 <- getareastd(std1,ismz = input$ISmz,ppm = input$ppm, con = input$con, rt = input$SCCPrt, rts = input$ISrt)   
-                df <- randomVals()
-                plot(df$area~df$pCl)
+        liststd <- eventReactive(input$go, {
+                if (!is.null(input$Standards)){
+                        n <- length(input$Standards$datapath)
+                        list <- list()
+                        for(i in 1:n){
+                                
+                                file <- xcmsRaw(input$Standards$datapath[i],profstep = 0.1)
+                                list[[i]] <- getareastd(file,ismz = input$ISmz,ppm = input$ppm, con = input$con, rt = input$SCCPrt, rts = input$ISrt)   
+                                
+                        }}
+                list
         })
         
-        output$test <- renderText({
-                std1 <- xcmsRaw(input$file1$datapath,profstep = 0.1)
-                std1 <- getareastd(std1,ismz = input$ISmz,ppm = input$ppm, con = input$con, rt = input$SCCPrt, rts = input$ISrt)
-                std1$sumpCl
+        output$reg <- renderTable({
+                li <- liststd()
+                pCl <- sapply(li,function(x) x$sumpCl)
+                rarea <- sapply(li,function(x) x$sumrarea)
+                tidy(lm(log(rarea)~pCl))
         })
+        
+        output$reg2 <- renderTable({
+                li <- liststd()
+                pCl <- sapply(li,function(x) x$sumpCl)
+                rarea <- sapply(li,function(x) x$sumrarea)
+                tidy(lm(rarea~pCl))
+        })
+        
+        output$plotstd <- renderPlot({
+                li <- liststd()
+                pCl <- sapply(li,function(x) x$sumpCl)
+                rarea <- sapply(li,function(x) x$sumrarea)
+                plot(rarea~pCl,xlab = 'Chlorine content %', ylab = 'Response Factor', pch = 19)
+        })
+        
+        output$plotcomp <- renderPlot({
+                li <- liststd()
+                ccomp <- lapply(li,function(x) x$ccomp)
+                clcomp <- lapply(li,function(x) x$clcomp)
+                par(mfrow = c(length(ccomp),2),mar=c(1,1,1,1))
+                
+                for(i in 1:length(ccomp)){
+                        ccompi <- ccomp[[i]]
+                        clcompi <- clcomp[[i]]
+                        barplot(ccompi[,2],names.arg = ccompi[,1],main = paste0('Standard',i,"'s C Composition"))
+                        barplot(clcompi[,2],names.arg = clcompi[,1], main = paste0('Standard',i,"'s Cl Composition"))
+                }
+        })
+        
+        listsample <- eventReactive(input$go2, {
+                if (!is.null(input$Samples)){
+                        n <- length(input$Samples$datapath)
+                        list <- list()
+                        for(i in 1:n){
+                                
+                                file <- xcmsRaw(input$Samples$datapath[i],profstep = 0.1)
+                                list[[i]] <- getarea(file,ismz = input$ISmz,ppm = input$ppm, rt = input$SCCPrt, rts = input$ISrt)   
+                                
+                        }}
+                list
+        })
+        
+        output$plotcomps <- renderPlot({
+                li <- listsample()
+                ccomp <- lapply(li,function(x) x$ccomp)
+                clcomp <- lapply(li,function(x) x$clcomp)
+                par(mfrow = c(length(ccomp),2),mar=c(1,1,1,1))
+                
+                for(i in 1:length(ccomp)){
+                        ccompi <- ccomp[[i]]
+                        clcompi <- clcomp[[i]]
+                        barplot(ccompi[,2],names.arg = ccompi[,1],main = paste0('Sample',i,"'s C Composition"))
+                        barplot(clcompi[,2],names.arg = clcompi[,1], main = paste0('Sample',i,"'s Cl Composition"))
+                }
+        })
+        
+        output$results <- renderPrint({
+                li <- listsample()
+                pCl <- sapply(li,function(x) x$sumpCl)
+                rarea <- sapply(li,function(x) x$sumrarea)
+                if(input$log){
+                        cons <- rarea/exp((pCl*input$slope+input$inc))
+                }else{
+                        cons <- rarea/(pCl*input$slope+input$inc)  
+                }
+                
+                round(cons,2)
+        })
+        
         output$data <- renderDataTable({
                 sccpdt
         })

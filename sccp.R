@@ -43,8 +43,12 @@ getareastd <- function(data = NULL,ismz = 323, ppm = 5, con = 2000,rt = NULL, rt
                 
                 sumpCl <- sum(pCl)
                 sumrarea <- sum(rarea)/con
-                comp <- cbind(Cln = sccpdt$Cln, Cn = sccpdt$Cn,rrares)
-                list <- list(sumpCl = sumpCl, sumrarea = sumrarea, comp = comp)
+                
+                ccomp <- aggregate(rrares,by = list(sccpdt$Cn),sum)
+                colnames(ccomp) <- c("nC","Formula group abundance")
+                clcomp <- aggregate(rrares,by = list(sccpdt$Cln),sum)
+                colnames(clcomp) <- c("nCl","Formula group abundance")
+                list <- list(sumpCl = sumpCl, sumrarea = sumrarea, ccomp = ccomp, clcomp = clcomp)
                 return(list)
         }
 }
@@ -90,7 +94,11 @@ getarea <- function(data,ismz = 323, ppm = 5,rt = NULL, rts = NULL){
         
         sumpCl <- sum(pCl)
         sumrarea <- sum(rarea)
-        comp <- cbind(Cln = sccpdt$Cln, Cn = sccpdt$Cn,rrares)
-        list <- list(sumpCl = sumpCl, sumrarea = sumrarea, comp = comp)
+        
+        ccomp <- aggregate(rrares,by = list(sccpdt$Cn),sum)
+        colnames(ccomp) <- c("nC","Formula group abundance")
+        clcomp <- aggregate(rrares,by = list(sccpdt$Cln),sum)
+        colnames(clcomp) <- c("nCl","Formula group abundance")
+        list <- list(sumpCl = sumpCl, sumrarea = sumrarea, ccomp = ccomp, clcomp = clcomp)
         return(list)
 }

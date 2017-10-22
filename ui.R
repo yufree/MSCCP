@@ -11,180 +11,13 @@ shinyUI(navbarPage(
         tabPanel(
                 "Standards analysis",
                 fluidPage(
-                        titlePanel("Analysis for SCCPs standands with known %Cl"),
-                        
-                        fluidRow(
-                                column(
-                                        12,
-                                        fluidRow(
-                                                column(6,
-                                                        h4('Uploading Standard File'),
-                                                       fluidRow(column(6,
-                                                              fileInput('file1',
-                                                                        label = 'mzxml file',
-                                                                        accept = c('.mzxml')),
-                                                              fileInput('file2',
-                                                                        label = 'mzxml file',
-                                                                        accept = c('.mzxml')),
-                                                              fileInput('file3',
-                                                                        label = 'mzxml file',
-                                                                        accept = c('.mzxml')),
-                                                              fileInput('file4',
-                                                                                                        label = 'mzxml file',
-                                                                                                        accept = c('.mzxml')),
-                                                              fileInput('file5',
-                                                                        label = 'mzxml file',
-                                                                        accept = c('.mzxml')),
-                                                              fileInput('file6',
-                                                                                                        label = 'mzxml file',
-                                                                                                        accept = c('.mzxml')),
-                                                              fileInput('file7',
-                                                                                                                                        label = 'mzxml file',
-                                                                                                                                        accept = c('.mzxml')),
-                                                              fileInput('file8',
-                                                                                                                                                                        label = 'mzxml file',
-                                                                                                                                                                        accept = c('.mzxml')),
-                                                              fileInput('file9',
-                                                                                                                                                                                                        label = 'mzxml file',
-                                                                                                                                                                                                        accept = c('.mzxml'))
-                                                              
-                                                       ),
-                                                       column(6, 
-                                                              sliderInput(
-                                                               'spCl1',
-                                                               '%Cl',
-                                                               min = 40,
-                                                               max = 80,
-                                                               value = 51.23,
-                                                               step = 0.01,
-                                                               round = 3
-                                                       ),sliderInput(
-                                                               'spCl2',
-                                                               '%Cl',
-                                                               min = 40,
-                                                               max = 80,
-                                                               value = 52.23,
-                                                               step = 0.01,
-                                                               round = 3
-                                                       ),sliderInput(
-                                                               'spCl3',
-                                                               '%Cl',
-                                                               min = 40,
-                                                               max = 80,
-                                                               value = 53.23,
-                                                               step = 0.01,
-                                                               round = 3
-                                                       ),sliderInput(
-                                                               'spCl4',
-                                                               '%Cl',
-                                                               min = 40,
-                                                               max = 80,
-                                                               value = 54.23,
-                                                               step = 0.01,
-                                                               round = 3
-                                                       ),sliderInput(
-                                                               'spCl5',
-                                                               '%Cl',
-                                                               min = 40,
-                                                               max = 80,
-                                                               value = 55.23,
-                                                               step = 0.01,
-                                                               round = 3
-                                                       ),sliderInput(
-                                                               'spCl6',
-                                                               '%Cl',
-                                                               min = 40,
-                                                               max = 80,
-                                                               value = 56.23,
-                                                               step = 0.01,
-                                                               round = 3
-                                                       ),sliderInput(
-                                                               'spCl7',
-                                                               '%Cl',
-                                                               min = 40,
-                                                               max = 80,
-                                                               value = 57.23,
-                                                               step = 0.01,
-                                                               round = 3
-                                                       ),sliderInput(
-                                                               'spCl8',
-                                                               '%Cl',
-                                                               min = 40,
-                                                               max = 80,
-                                                               value = 58.23,
-                                                               step = 0.01,
-                                                               round = 3
-                                                       ),sliderInput(
-                                                               'spCl9',
-                                                               '%Cl',
-                                                               min = 40,
-                                                               max = 80,
-                                                               value = 61.23,
-                                                               step = 0.01,
-                                                               round = 3
-                                                       )
-                                                       ))),
-                                        column(6,h4('Parameters to extract the data'),
-                                               sliderInput(
-                                                       'ISmz',
-                                                       'm/z',
-                                                       min = 200,
-                                                       max = 600,
-                                                       value = 323,
-                                                       step = 0.01,
-                                                       round = 3
-                                               ),
-                                               sliderInput(
-                                                       'ISrt',
-                                                       'Retention Time range for IS',
-                                                       min = 0,
-                                                       max = 6000,
-                                                       value = c(600,1200),
-                                                       step = 50,
-                                                       round = 0
-                                               ),
-                                               sliderInput(
-                                                       'SCCPrt',
-                                                       'Retention Time range for SCCPs',
-                                                       min = 0,
-                                                       max = 6000,
-                                                       value = c(600,1200),
-                                                       step = 50,
-                                                       round = 0
-                                               ),
-                                               sliderInput(
-                                                       'ppm',
-                                                       'ppm',
-                                                       min = 1,
-                                                       max = 100,
-                                                       value = 5,
-                                                       step = 1,
-                                                       round = 0
-                                               ),
-                                               sliderInput(
-                                                       'con',
-                                                       'SCCP concertration in all standards(ppm)',
-                                                       min = 100,
-                                                       max = 5000,
-                                                       value = 2000,
-                                                       step = 50,
-                                                       round = 0
-                                               ),
-                                               actionButton("goButton", "Go!"),
-                                               plotOutput("plotrsd"),
-                                               textOutput("test")
-                                               )))
-        ))),
-        tabPanel(
-                "Sample analysis",
-                fluidPage(
-                        titlePanel("Analysis for SCCPs sample"),
+                        titlePanel("Analysis for SCCPs standards"),
                         sidebarPanel(
-                                h4('Uploading Sample File'),
-                                fileInput('sample',
-                                          label = 'mzxml file',
-                                          accept = c('.mzxml'))
-                        ),
+                                h4('Uploading Standards File'),
+                                fileInput('Standards',
+                                          label = 'mzxml files',
+                                          multiple = T,
+                                          accept = c('.mzxml')),
                         sliderInput(
                                 'ISmz',
                                 'm/z',
@@ -221,10 +54,103 @@ shinyUI(navbarPage(
                                 step = 1,
                                 round = 0
                         ),
+                        sliderInput(
+                                'con',
+                                'Concertration in ppm',
+                                min = 10,
+                                max = 10000,
+                                value = 2000,
+                                step = 10,
+                                round = 0
+                        ),
+                        actionButton("go", "Go")
+                        ),
                         
-                        mainPanel(p("test"))
+                        mainPanel(
+                               plotOutput("plotstd") ,
+                               plotOutput("plotcomp"),
+                               
+                               h4('Parameters for linear regression'),
+                               tableOutput("reg2"),
+                               
+                               h4("Parameters for log transformation on response factor"),
+                               tableOutput("reg")
+                               
+                        )
                 )
-        ),
+                ),
+        tabPanel(
+                "Sample analysis",
+                fluidPage(
+                        titlePanel("Analysis for SCCPs sample"),
+                        sidebarPanel(
+                                h4('Uploading Sample Files'),
+                                fileInput('Samples',
+                                          label = 'mzxml files',
+                                          multiple = T,
+                                          accept = c('.mzxml')),
+                                checkboxInput('log','Log Trans', value = T),
+                                sliderInput(
+                                        'inc',
+                                        'Intercept',
+                                        min = -50,
+                                        max = 0,
+                                        value = -26.36,
+                                        step = 0.01,
+                                        round = 2
+                                ),
+                                sliderInput(
+                                        'slope',
+                                        'Slope',
+                                        min = 0,
+                                        max = 50,
+                                        value = 34.66,
+                                        step = 0.01,
+                                        round = 2
+                                ),
+                                sliderInput(
+                                'ISmz',
+                                'm/z',
+                                min = 200,
+                                max = 600,
+                                value = 323,
+                                step = 0.01,
+                                round = 3
+                        ),
+                        sliderInput(
+                                'ISrt',
+                                'Retention Time range for IS',
+                                min = 0,
+                                max = 6000,
+                                value = c(600,1200),
+                                step = 50,
+                                round = 0
+                        ),
+                        sliderInput(
+                                'SCCPrt',
+                                'Retention Time range for SCCPs',
+                                min = 0,
+                                max = 6000,
+                                value = c(600,1200),
+                                step = 50,
+                                round = 0
+                        ),
+                        sliderInput(
+                                'ppm',
+                                'ppm',
+                                min = 1,
+                                max = 100,
+                                value = 5,
+                                step = 1,
+                                round = 0
+                        ),
+                        actionButton("go2", "Go")),
+                        
+                mainPanel(plotOutput("plotcomps"),
+                          h4("SCCPs Concertrations in sample(s)(ppm):"),
+                          textOutput("results"))
+                
+        )),
         tabPanel("Ions for analysis",
                  dataTableOutput("data")),
         tabPanel("References")
