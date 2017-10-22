@@ -6,7 +6,19 @@ shinyUI(navbarPage(
                  fluidPage(
                          titlePanel(
                                  "Online shiny apps for quantitative analysis of Short Chain Chlorinated Paraffins (SCCPs)"
-                         )
+                         ),
+                         h3('Step 0'),
+                         h4('Prepare standards with known %Cl.'),
+                         h3('Step 1'),
+                         h4('Covert you GC-HRMS data into mzxml format by',a('MsConverter', href ='http://proteowizard.sourceforge.net/tools.shtml')),
+                         h3('Step 2'),
+                         h4('Upload standards data in "Standards analysis" tab, set the parameters for internal standards and retention time range, clike "Go" to process the data. Record the intercept and slope of the model.'),
+                         h3('Step 3'),
+                         h4('Upload Samples data in "Sample analysis" tab, set the parameters for intercept and slope from the standards, internal standards and retention time range, clike "Go" to process the data.'),
+                         h3('Step 4'),
+                         h4('The concertration and compositon of your samples would be shown.'),
+                         h3('Tips'),
+                         h4('"Ions for analysis" show the ions used for this analysis in case you use other HRMS to analysis SCCPs.')
                  )),
         tabPanel(
                 "Standards analysis",
