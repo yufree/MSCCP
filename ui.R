@@ -18,7 +18,8 @@ shinyUI(navbarPage(
                          h3('Step 4'),
                          h4('The concertration and compositon of your samples would be shown.'),
                          h3('Tips'),
-                         h4('"Ions for analysis" show the ions used for this analysis in case you use other HRMS to analysis SCCPs.')
+                         h4('"Ions for analysis" show the ions used for this analysis in case you use other HRMS to analysis SCCPs.'),
+                         h5('The source code could be found ',a('here', href='https://github.com/yufree/MSCCP'), ' and you could download them and open "msccp.Rproj" with ', a('RStudio',href='https://www.rstudio.com/'),'. Then open either "ui.R" or "server.R" and punch "Run App" to use this app locally.')
                  )),
         tabPanel(
                 "Standards analysis",
